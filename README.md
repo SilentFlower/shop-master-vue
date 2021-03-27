@@ -1,4 +1,4 @@
-# y
+# shop-master-vue
 
 > A Vue.js project
 
