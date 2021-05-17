@@ -32,6 +32,7 @@
   import jsonwebtoken from 'jsonwebtoken'
   import GoogleSignInButton from 'vue-google-signin-button-directive'
   export default {
+    inject: ['reload'],
     directives: {
       GoogleSignInButton,
       jsonwebtoken,
@@ -64,9 +65,22 @@
         this.$emit('close');
       },
       OnGoogleAuthSuccess (idToken) {
-        console.log(idToken,"tokesdasdasd") //返回第三方结果信息 默认是全token 要用jsonwebtoken 解析
-        console.log(jsonwebtoken.decode(idToken))
-        // Receive the idToken and make your magic with the backend
+        let info = jsonwebtoken.decode(idToken);
+        if (info.aud == this.clientId && info.exp > 0) {
+          this.loginWithGoogle(info);
+        }
+      },
+      //使用谷歌第三方登陆
+      loginWithGoogle(info){
+        this.$http.post('/user/loginWithGoogle', info)
+          .then(res => {
+            if (res.code === 10001) {
+              this.$message.success("登陆成功");
+              this.reload()
+            }else{
+              this.$message.error("登陆失败");
+            }
+          });
       },
       OnGoogleAuthFail (error) {
         console.log(error)
@@ -81,8 +95,9 @@
               }
             })
               .then(res => {
-                if(res.code === 10000){
-                  alert("成功登陆");
+                if(res.code === 10001){
+                  this.$message.success("登陆成功");
+                  this.reload()
                 }
               });
           }

@@ -9,11 +9,11 @@ Vue.use(Vuex);
  */
 const store = new Vuex.Store({
   state: {
+    firstFlag:true,
     options: [],
     activeIndex: '/user',
     userInfo: {},
     authority: {
-      empty: true, // 状态true 代表认证信息还没有初始化
       token:'',
       user: {}, // 当前登录的用户信息
       roles: [], // 全部 角色名称
@@ -24,6 +24,10 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    //
+    changeFlag(state) {
+      state.firstFlag = false;
+    },
     // 添加tabs
     add_tabs(state, data) {
       this.state.options.push(data);
@@ -56,7 +60,6 @@ const store = new Vuex.Store({
       user,
       authorities
     }) {
-      this.state.authority.empty = false;
       if(Object.keys(this.state.authority.user).length === 0){
         this.state.authority.user = user;
       }
@@ -79,6 +82,9 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    firstFlag:state => {
+      return state.firstFlag;
+    },
     authority: state => {
       return state.authority;
     },

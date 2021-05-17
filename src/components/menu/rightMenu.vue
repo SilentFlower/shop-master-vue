@@ -28,7 +28,7 @@
         <i class="el-icon-shopping-cart-full"></i>
         <span slot="title">购物车</span>
       </el-menu-item>
-      <el-menu-item index="4">
+      <el-menu-item index="4" @click="toTop">
         <i class="el-icon-top"></i>
         <span slot="title">返回顶部</span>
       </el-menu-item>
@@ -57,6 +57,11 @@
       };
     },
     methods: {
+      //返回顶部
+      toTop(){
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      },
       iconChange() {
         console.log("111");
         this.isCollapse = !this.isCollapse;

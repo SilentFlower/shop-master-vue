@@ -7,9 +7,9 @@
     :before-close="onClose">
     <div slot="title">
       <h1 class="signup-heading">注册</h1>
-      <a href="#" class="signup-google" v-google-signin-button="clientId">
+      <a href="javascript:void(0);" class="signup-google" v-google-signin-button="clientId">
         <img class="google" src="static/google.png">
-        <span class="signup-google-text">第三方注册</span>
+        <span class="signup-google-text">第三方登陆</span>
       </a>
       <div class="signup-or">
         <span class="signup-or-text">或</span>
@@ -100,12 +100,25 @@
         this.$emit('close');
       },
       OnGoogleAuthSuccess (idToken) {
-        console.log(idToken,"tokesdasdasd") //返回第三方结果信息 默认是全token 要用jsonwebtoken 解析
-        console.log(jsonwebtoken.decode(idToken))
-        // Receive the idToken and make your magic with the backend
+        let info = jsonwebtoken.decode(idToken);
+        if (info.aud == this.clientId && info.exp > 0) {
+          this.loginWithGoogle(info);
+        }
       },
       OnGoogleAuthFail (error) {
         console.log(error)
+      },
+      //使用谷歌第三方登陆
+      loginWithGoogle(info){
+        this.$http.post('/user/loginWithGoogle', info)
+          .then(res => {
+            if (res.code === 10001) {
+              this.$message.success("登陆成功");
+              this.reload()
+            }else{
+              this.$message.error("登陆失败");
+            }
+          });
       },
       //返回注册界面
       goToLogin(){

@@ -1,5 +1,5 @@
 <template>
-  <el-row  style="height: 80px" type="flex" align="center"  class="my-nav">
+  <el-row  style="height: 80px" type="flex" align="center"  class="wtfNav">
 
     <el-col class="make-center auto" :offset="2" :span="2">
       <a href="/" class="auto">
@@ -35,7 +35,8 @@
       </el-menu>
     </el-col>
 
-    <el-col class="make-center buttonGroup" style="justify-content: flex-end;margin-right: 20px"  :span="6">
+
+    <el-col v-if="buttonStatus && wtfVisible" class="make-center buttonGroup" style="justify-content: flex-end;margin-right: 20px"  :span="6">
       <div class="login_click" style="margin-right: 20px">
         <a  href="javascript:void(0);" @click="dialogVisible2 = true">登 录</a>
       </div>
@@ -43,6 +44,14 @@
         <a class="auto" href="javascript:void(0);" @click="dialogVisible = true">快速注册</a>
       </div>
     </el-col>
+
+    <el-col v-if="!buttonStatus && wtfVisible" class="make-center buttonGroup" style="justify-content: flex-end;margin-right: 20px"  :span="6">
+      <div class="login_click" style="margin-right: 20px">
+        <a  href="javascript:void(0);" @click="personalCenter">个人中心</a>
+      </div>
+    </el-col>
+
+
     <register :dialogVisible="dialogVisible" @close="dialogVisible = false" @openLogin="openLogin"></register>
     <login :dialogVisible="dialogVisible2" @close="dialogVisible2 = false" @openRegister="openRegister"></login>
 
@@ -53,6 +62,7 @@
 <script>
   import register from "../form/register"
   import login from "../form/login"
+  import Auth from '@/utils/auth.js'
   export default {
     data() {
       return {
@@ -61,6 +71,21 @@
         dialogVisible: false,
         //登陆
         dialogVisible2: false,
+        //判断是否登陆
+        buttonStatus: null,
+        //渲染与否
+        wtfVisible: false,
+      }
+    },
+    mounted() {
+      if (!this.$auth.getFirstFlag()) {
+        if (this.$auth.getToken() != null && this.$auth.getToken() != "") {
+          this.buttonStatus = false;
+        }else{
+          this.buttonStatus = true;
+        }
+        this.wtfVisible = true;
+        this.wtfVisible = true
       }
     },
     methods:{
@@ -72,6 +97,26 @@
       openLogin(){
         this.dialogVisible2 = true
       },
+      personalCenter() {
+        this.$router.push("/personalCenter");
+      },
+    },
+    computed: {
+      listenFlag() {
+        return this.$auth.getFirstFlag();
+      }
+    },
+    watch:{
+      listenFlag:function(old,newd){
+        if (old == false) {
+          if (this.$auth.getToken() != null && this.$auth.getToken() != "") {
+            this.buttonStatus = false;
+          }else{
+            this.buttonStatus = true;
+          }
+          this.wtfVisible = true;
+        }
+      },
     },
     components:{
       register,
@@ -82,11 +127,11 @@
 </script>
 <style>
 
-  .my-nav{
+  .wtfNav{
     font-size:14px;
     font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
     font-weight:bold;
-    position: fixed;
+    position: fixed!important;
     top: 0;
     height: 100%;
     width: 100%;
@@ -96,7 +141,7 @@
     background-color: #FFFFFF;
   }
 
-  .login_click a
+  .wtfNav .login_click a
   {
     text-decoration:none;
     background:#2f435e;
@@ -113,9 +158,9 @@
     transition:all linear 0.30s;
 
   }
-  .login_click a:hover { background:#385f9e; }
+  .wtfNav .login_click a:hover { background:#385f9e; }
 
-  .register_click a
+  .wtfNav .register_click a
   {
     text-decoration:none;
     background:#FB7299;
@@ -132,21 +177,21 @@
     transition:all linear 0.30s;
 
   }
-  .register_click a:hover { background:#73C9E5; }
+  .wtfNav .register_click a:hover { background:#73C9E5; }
 
-  .auto{
+  .wtfNav .auto{
     max-width: 100%;
     height: 100%;
     caret-color: transparent;
   }
 
-  .buttonGroup button:last-child {
+  .wtfNav .buttonGroup button:last-child {
     background-color: #F16B6F;
     color: #ffffff;
     border: 0px;
   }
 
-  .mainMenu>*{
+  .wtfNav .mainMenu>*{
     margin-right: 20px !important;
   }
 
@@ -159,7 +204,7 @@
   }
 
 
-  .make-center{
+  .wtfNav .make-center{
     display: flex;
     align-items: center;
   }

@@ -15,7 +15,7 @@ class Auth{
     store.commit('load_token', token)
   }
   static removeToken() {
-    Auth.setToken('');
+    Auth.setToken(null);
   }
   static setUser(user) {
     store.commit('load_user', user)
@@ -39,6 +39,13 @@ class Auth{
     return store.getters.menus;
   }
 
+  static firstFlagChange() {
+    store.commit("changeFlag");
+  }
+
+  static getFirstFlag() {
+    return store.getters.firstFlag;
+  }
   static clear() {
     Session.clear();
     store.replaceState({})
