@@ -21,24 +21,11 @@ class Auth{
     store.commit('load_user', user)
   }
   static getUser() {
-    return store.getters.authority.user;
+    return store.getters.user;
   }
   static removeUser() {
     Auth.setUser({});
   }
-  static setAuthority(data) {
-    store.commit('load_authority', {user:Auth.getUser(),authorities:data});
-  }
-  static getAuthority() {
-    return store.getters.authority;
-  }
-  static setMenu(data) {
-    store.commit('load_menus', data);
-  }
-  static getMenu() {
-    return store.getters.menus;
-  }
-
   static firstFlagChange() {
     store.commit("changeFlag");
   }

@@ -46,14 +46,14 @@
       jsonwebtoken
     },
     data() {
-      var validatePass1 = (rule, value, callback) => {
+      let validatePass1 = (rule, value, callback) => {
         if (value === this.form.account) {
           callback(new Error('密码不能与用户名相同'))
         } else {
           callback()
         }
       }
-      var validatePass2 = (rule, value, callback) => {
+      let validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'))
         } else if (value !== this.form.passwords) {

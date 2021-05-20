@@ -1,5 +1,5 @@
 <template>
-  <el-row  style="height: 80px" type="flex" align="center"  class="wtfNav">
+  <el-row  style="height: 80px" type="flex" align="middle"  class="wtfNav">
 
     <el-col class="make-center auto" :offset="2" :span="2">
       <a href="/" class="auto">

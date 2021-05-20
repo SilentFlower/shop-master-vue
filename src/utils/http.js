@@ -37,13 +37,15 @@ axios.interceptors.response.use(
     console.log(result.code);
     if(result.code === 10001){
       console.log(result.data);
-      Auth.setToken(result.data);
+      Auth.setToken(result.data.token);
+      Auth.setUser(result.data.user);
     }
 
     // 11000: token失效或者无token代表登录状态异常;
     if (result.code == 11000) {
       console.log("???")
       Auth.removeToken();
+      Auth.removeUser();
     }
 
     // 请求码大于11000或等于-99的均为异常情况

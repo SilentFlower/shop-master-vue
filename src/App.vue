@@ -71,7 +71,8 @@ export default {
         this.$http.get('/index')
           .then(res => {
             if(res.code === 10000){
-              this.$auth.setToken(res.data)
+              this.$auth.setToken(res.data.token)
+              this.$auth.setUser(res.data.user)
             }
             this.$auth.firstFlagChange();
           })

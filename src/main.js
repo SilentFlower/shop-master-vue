@@ -6,12 +6,14 @@ import router from './router'
 import Element from 'element-ui'
 import "element-ui/lib/theme-chalk/index.css"
 import axios from '@/utils/http';
+import date from '@/utils/date.js';
 import store from '@/store/index';
 import qs from 'qs'
 import Meta from "vue-meta";
 import Auth from '@/utils/auth.js';
 Vue.use(Meta);
 Vue.prototype.$store=store
+Vue.prototype.$date = date;
 Vue.prototype.$qs=qs
 Vue.prototype.$http = axios;
 Vue.prototype.$auth = Auth;
