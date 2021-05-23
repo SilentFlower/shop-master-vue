@@ -17,7 +17,7 @@
         text-color="#6A6A6A"
         active-text-color="#4F6EED"
         style="text-align: center;border: 0px;">
-        <el-menu-item class="nav"  index="1">首页</el-menu-item>
+        <el-menu-item class="nav"  index="1" @click="gotoHome">首页</el-menu-item>
         <el-submenu index="2">
           <template style="font-size: 20px" slot="title">最新活动</template>
           <el-menu-item index="2-1">活动1</el-menu-item>
@@ -34,7 +34,12 @@
         <el-menu-item class="nav" index="4"><a href="https://www.ele.me" target="_blank" style="text-decoration-line: none">订单管理</a></el-menu-item>
       </el-menu>
     </el-col>
+    <el-col :span="4">
 
+      <el-input prefix-icon="el-icon-search" placeholder="请输入搜索的商品" v-model="searchValue" @keyup.enter.native="searchGood">
+
+      </el-input>
+    </el-col>
 
     <el-col v-if="buttonStatus && wtfVisible" class="make-center buttonGroup" style="justify-content: flex-end;margin-right: 20px"  :span="6">
       <div class="login_click" style="margin-right: 20px">
@@ -66,7 +71,7 @@
   export default {
     data() {
       return {
-        activeChoose: '1',//默认选择
+        activeChoose: null,//默认选择
         //注册
         dialogVisible: false,
         //登陆
@@ -75,6 +80,8 @@
         buttonStatus: null,
         //渲染与否
         wtfVisible: false,
+        //商品搜索内容
+        searchValue:null,
       }
     },
     mounted() {
@@ -89,6 +96,18 @@
       }
     },
     methods:{
+      //搜索商品页面
+      searchGood(){
+        this.$router.push({
+          name: '搜索'
+        })
+      },
+      //商城首页
+      gotoHome(){
+        this.$router.push({
+          name:'首页'
+        });
+      },
       //子组件登陆调用方法,登陆页面跳转注册页面
       openRegister(){
         this.dialogVisible = true

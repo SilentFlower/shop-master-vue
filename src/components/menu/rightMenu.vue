@@ -24,7 +24,7 @@
         <i class="el-icon-menu"></i>
         <span slot="title">导航二</span>
       </el-menu-item>
-      <el-menu-item index="3">
+      <el-menu-item index="3" @click.native="gotoShopCart">
         <i class="el-icon-shopping-cart-full"></i>
         <span slot="title">购物车</span>
       </el-menu-item>
@@ -57,6 +57,13 @@
       };
     },
     methods: {
+      //去往购物车
+      gotoShopCart() {
+        console.log("???")
+        this.$router.push({
+          name:'购物车'
+        })
+      },
       //返回顶部
       toTop(){
         document.body.scrollTop = 0;
@@ -77,6 +84,6 @@
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       }
-    }
+    },
   }
 </script>

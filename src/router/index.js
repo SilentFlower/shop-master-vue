@@ -7,6 +7,12 @@ import MyMessage from'../view/Personal/MyMessage'
 import EditPwd from "../view/Personal/EditPwd";
 import InformationSummary from "../view/Personal/InformationSummary";
 import Withdraw from "../view/Personal/Withdraw";
+import Master from "../view/Master/master";
+import Home from "../view/Master/home";
+import Search from "../view/Master/search";
+import Good from "../view/Master/good";
+import ShopCart from "../view/Master/shoppingCart";
+import LoginLog from "../view/Personal/LoginLog";
 import Auth from "../utils/auth";
 import store from '@/store/index.js'
 
@@ -20,8 +26,34 @@ let router =  new Router({
   routes: [
     {
       path: '/',
-      name: '主页',
-      component: Index
+      component: Index,
+      children: [
+        {
+          path: '/',
+          name: '主页',
+          component: Home
+        },
+        {
+          path: '/master',
+          name: '首页',
+          component: Master
+        },
+        {
+          path: '/search',
+          name: '搜索',
+          component: Search
+        },
+        {
+          path: '/good',
+          name: '商品',
+          component: Good
+        },
+        {
+          path: '/shopCart',
+          name: '购物车',
+          component: ShopCart
+        }
+      ]
     },
     {
       path: '/test',
@@ -52,6 +84,11 @@ let router =  new Router({
           path: '/withdraw',
           name: '提现',
           component: Withdraw
+        },
+        {
+          path: '/loginLog',
+          name: '登录日志',
+          component: LoginLog
         }
 
       ]

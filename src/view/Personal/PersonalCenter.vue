@@ -28,9 +28,9 @@
             <el-menu-item index="1-1" @click="goToInfo">信息汇总</el-menu-item>
             <el-menu-item index="1-2">商户信息</el-menu-item>
             <el-menu-item index="1-3">付款方式</el-menu-item>
-            <el-menu-item index="1-4">申请提现</el-menu-item>
+            <el-menu-item index="1-4" @click="gotoWithdraw">申请提现</el-menu-item>
             <el-menu-item index="1-5">资金变动</el-menu-item>
-            <el-menu-item index="1-6">登陆日志</el-menu-item>
+            <el-menu-item index="1-6" @click="gotoLoginLog">登陆日志</el-menu-item>
           </el-submenu>
 
           <el-submenu index="2">
@@ -108,7 +108,7 @@
       <el-row style="padding-right: 20px;padding-left: 20px;border-bottom: 2px solid #F8F8F8;padding-top: 10px;padding-bottom: 10px"
               @mouseleave.native="itemMouseout">
         <el-col :span="5" :offset="1">
-          <el-input class="search"
+          <el-input class="search2"
                     placeholder="请输入订单号/联系方式"
                     prefix-icon="el-icon-search"
                     @keyup.enter.native="searchHandler">
@@ -281,7 +281,7 @@
   .personalCenter .el-menu-vertical-demo{
     border-right:2px solid #F0F5FF;
   }
-  .personalCenter .search input{
+  .personalCenter .search2 input{
     background-color: #F3F6FF;
     border-radius:20px 20px 20px 20px;
     height: 35px;
@@ -348,6 +348,18 @@
       this.goToInfo();
     },
     methods:{
+      //登录日志
+      gotoLoginLog(){
+        this.$router.push({
+          name:'登录日志'
+        })
+      },
+      //申请提现
+      gotoWithdraw(){
+        this.$router.push({
+          name:'提现'
+        })
+      },
       //返回首页
       gotoHome(){
         this.$router.push({
