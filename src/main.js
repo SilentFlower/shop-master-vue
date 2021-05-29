@@ -19,6 +19,8 @@ Vue.prototype.$http = axios;
 Vue.prototype.$auth = Auth;
 Vue.config.productionTip = false
 
+
+
 Vue.use(Element)
 Vue.directive('resize',{
   bind(el, binding) { // el为绑定的元素，binding为绑定给指令的对象

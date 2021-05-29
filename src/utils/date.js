@@ -1,5 +1,9 @@
 class DateUtils {
-  static format(date,fmtStr) {
+  static format(dateStr,fmtStr) {
+    if (dateStr == null || dateStr == "") {
+      return "";
+    }
+    let date = new Date(dateStr);
     let ret;
     let fmt = fmtStr || 'yyyy-MM-dd HH:mm:SS';
     let opt = {

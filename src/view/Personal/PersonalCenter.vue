@@ -26,11 +26,10 @@
               <span>我的账户</span>
             </template>
             <el-menu-item index="1-1" @click="goToInfo">信息汇总</el-menu-item>
-            <el-menu-item index="1-2">商户信息</el-menu-item>
-            <el-menu-item index="1-3">付款方式</el-menu-item>
-            <el-menu-item index="1-4" @click="gotoWithdraw">申请提现</el-menu-item>
-            <el-menu-item index="1-5">资金变动</el-menu-item>
-            <el-menu-item index="1-6" @click="gotoLoginLog">登陆日志</el-menu-item>
+            <el-menu-item index="1-2" @click="gotoMerch">商户信息</el-menu-item>
+            <el-menu-item index="1-3" @click="gotoWithdraw">申请提现</el-menu-item>
+            <el-menu-item index="1-4" @click="gotoFundingChanges">资金变动</el-menu-item>
+            <el-menu-item index="1-5" @click="gotoLoginLog">登陆日志</el-menu-item>
           </el-submenu>
 
           <el-submenu index="2">
@@ -38,13 +37,8 @@
               <i class="el-icon-s-goods"></i>
               <span>商品管理</span>
             </template>
-            <el-menu-item index="2-1">添加分类</el-menu-item>
-            <el-menu-item index="2-2">商品分类</el-menu-item>
-            <el-menu-item index="2-3">添加商品</el-menu-item>
-            <el-menu-item index="2-4">商品列表</el-menu-item>
-            <el-menu-item index="2-5">添加卡密</el-menu-item>
-            <el-menu-item index="2-6">库存卡密</el-menu-item>
-            <el-menu-item index="2-6">管理卡密</el-menu-item>
+            <el-menu-item index="2-1" @click="gotoAddGood">添加商品</el-menu-item>
+            <el-menu-item index="2-2" @click="gotoEditGood">商品列表</el-menu-item>
           </el-submenu>
 
           <el-submenu index="3">
@@ -52,52 +46,25 @@
               <i class="el-icon-sell"></i>
               <span>交易数据</span>
             </template>
-            <el-menu-item index="3-1">交易记录</el-menu-item>
+            <el-menu-item index="3-1" @click="gotoTranRec">交易记录</el-menu-item>
           </el-submenu>
+
 
           <el-submenu index="4">
-            <template slot="title">
-              <i class="el-icon-s-management"></i>
-              <span>数据统计</span>
-            </template>
-            <el-menu-item index="4-1">销售统计</el-menu-item>
-            <el-menu-item index="4-2">数据中心</el-menu-item>
-            <el-menu-item index="4-3">收益统计</el-menu-item>
-          </el-submenu>
-
-          <el-submenu index="5">
-            <template slot="title">
-              <i class="el-icon-s-shop"></i>
-              <span>店铺管理</span>
-            </template>
-            <el-menu-item index="5-1">店铺链接</el-menu-item>
-            <el-menu-item index="5-2">店铺管理</el-menu-item>
-            <el-menu-item index="5-3">收益统计</el-menu-item>
-          </el-submenu>
-
-          <el-submenu index="6">
             <template slot="title">
               <i class="el-icon-warning"></i>
               <span>投诉管理</span>
             </template>
-            <el-menu-item index="6-1">投诉管理</el-menu-item>
+            <el-menu-item index="4-1" @click="gotoComplaintOrder">投诉管理</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="7">
+          <el-submenu index="5">
             <template slot="title">
               <i class="el-icon-s-ticket"></i>
               <span>优惠券</span>
             </template>
-            <el-menu-item index="7-1">优惠券管理</el-menu-item>
-            <el-menu-item index="7-2">优惠券生成</el-menu-item>
-          </el-submenu>
-
-          <el-submenu index="8">
-            <template slot="title">
-              <i class="el-icon-setting"></i>
-              <span>系统设置</span>
-            </template>
-            <el-menu-item index="8-1">系统设置</el-menu-item>
+            <el-menu-item index="5-1" @click="gotoCoupon">优惠券生成</el-menu-item>
+            <el-menu-item index="5-2" @click="gotoEditCoupon">优惠券管理</el-menu-item>
           </el-submenu>
 
         </el-menu>
@@ -129,7 +96,7 @@
                     justify="center"
                     align="middle"
             >
-              <el-col :span="5" :offset="2" class="wtttf">
+              <el-col :span="5" :offset="2" class="wtttf" @click.native="gotoEditGood">
                 <el-row>
                   <i class="el-icon-circle-plus" style="font-size: 24px"/>
                 </el-row>
@@ -138,7 +105,7 @@
                 </el-row>
               </el-col>
 
-              <el-col :span="5" :offset="2" class="wtttf">
+              <el-col :span="5" :offset="2" class="wtttf" @click.native="gotoWithdraw">
                 <el-row>
                   <i class="el-icon-money" style="font-size: 24px"/>
                 </el-row>
@@ -147,12 +114,12 @@
                 </el-row>
               </el-col>
 
-              <el-col :span="5" :offset="2" class="wtttf">
+              <el-col :span="5" :offset="2" class="wtttf" @click.native="gotoTranRec">
                 <el-row>
                   <i class="el-icon-bank-card" style="font-size: 24px"/>
                 </el-row>
                 <el-row style="font-size: 14px">
-                  添加卡密
+                  交易记录
                 </el-row>
               </el-col>
             </el-row>
@@ -348,6 +315,54 @@
       this.goToInfo();
     },
     methods:{
+      //
+      gotoEditCoupon(){
+        this.$router.push({
+          name:'优惠券管理'
+        });
+      },
+      //前往生成优惠券
+      gotoCoupon(){
+        this.$router.push({
+          name:'生成优惠券'
+        });
+      },
+      //前往投诉管理
+      gotoComplaintOrder(){
+        this.$router.push({
+          name:'投诉管理'
+        });
+      },
+      //跳转至交易记录
+      gotoTranRec(){
+        this.$router.push({
+          name:'交易记录'
+        });
+      },
+      //跳转至商品列表
+      gotoEditGood(){
+        this.$router.push({
+          name:'商品列表'
+        });
+      },
+      //跳转至商品添加
+      gotoAddGood(){
+        this.$router.push({
+          name:'添加商品'
+        });
+      },
+      //跳转至资金变动
+      gotoFundingChanges(){
+        this.$router.push({
+          name:'资金变动'
+        });
+      },
+      //跳转至商户信息
+      gotoMerch(){
+        this.$router.push({
+          name:'商户信息'
+        });
+      },
       //登录日志
       gotoLoginLog(){
         this.$router.push({

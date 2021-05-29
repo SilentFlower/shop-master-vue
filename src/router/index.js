@@ -13,6 +13,14 @@ import Search from "../view/Master/search";
 import Good from "../view/Master/good";
 import ShopCart from "../view/Master/shoppingCart";
 import LoginLog from "../view/Personal/LoginLog";
+import MerchantInformation from "../view/Personal/MerchantInformation";
+import FundingChanges from "../view/Personal/FundingChanges";
+import AddGood from "../view/Personal/AddGood";
+import EditGood from "../view/Personal/EditGood";
+import TransactionRecord from "../view/Personal/TransactionRecord"
+import ComplaintOrder from "../view/Personal/ComplaintOrder"
+import Coupon from "../view/Personal/Coupon"
+import EditCoupon from "../view/Personal/EditCoupon"
 import Auth from "../utils/auth";
 import store from '@/store/index.js'
 
@@ -89,6 +97,46 @@ let router =  new Router({
           path: '/loginLog',
           name: '登录日志',
           component: LoginLog
+        },
+        {
+          path: '/merchantInformation',
+          name: '商户信息',
+          component: MerchantInformation
+        },
+        {
+          path: '/fundingChanges',
+          name: '资金变动',
+          component: FundingChanges
+        },
+        {
+          path: '/addGood',
+          name: '添加商品',
+          component: AddGood
+        },
+        {
+          path: '/editGood',
+          name: '商品列表',
+          component: EditGood
+        },
+        {
+          path:'/transactionRecord',
+          name:'交易记录',
+          component:TransactionRecord
+        },
+        {
+          path:'/complaintOrder',
+          name:'投诉管理',
+          component:ComplaintOrder
+        },
+        {
+          path:'/coupon',
+          name:'生成优惠券',
+          component:Coupon
+        },
+        {
+          path:'/editCoupon',
+          name:'优惠券管理',
+          component:EditCoupon
         }
 
       ]

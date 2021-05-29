@@ -347,6 +347,7 @@
         //钱包
         wallet:{
           balance:0.00,//余额
+          balanceDisable:0.00,//冻结金额
           walletIncome:0.00,//总收入
           walletOutcome:0.00,//总支出
           todaySEarnings:0.00,//今日收入
@@ -548,7 +549,23 @@
         this.$http.post('/order/getOrdersByIdAndTime', this.orderQueryForm2)
           .then(res => {
             if (res.code === 10000) {
-              this.orderTable2= res.data.list;
+              let datas = res.data.list;
+              for (let i in datas) {
+                if(datas[i].status === 0){
+                  datas[i].statusStr = '取消'
+                }else if(datas[i].status === 1){
+                  datas[i].statusStr = '未付款'
+                }else if(datas[i].status === 2){
+                  datas[i].statusStr = '付款完成'
+                }else if(datas[i].status === 4){
+                  datas[i].statusStr = '申诉中'
+                }else if(datas[i].status === 5){
+                  datas[i].statusStr = '完成'
+                }else if(datas[i].status === 3){
+                  datas[i].statusStr = '删除'
+                }
+              }
+              this.orderTable2= datas;
               this.total2 = res.data.total;
             }
             this.loading2 = false
@@ -561,7 +578,23 @@
         this.$http.post('/order/getOrdersByIdAndTime', this.orderQueryForm)
           .then(res => {
             if (res.code === 10000) {
-              this.orderTable1 = res.data.list;
+              let datas = res.data.list;
+              for (let i in datas) {
+                if(datas[i].status === 0){
+                  datas[i].statusStr = '取消'
+                }else if(datas[i].status === 1){
+                  datas[i].statusStr = '未付款'
+                }else if(datas[i].status === 2){
+                  datas[i].statusStr = '付款完成'
+                }else if(datas[i].status === 4){
+                  datas[i].statusStr = '申诉中'
+                }else if(datas[i].status === 5){
+                  datas[i].statusStr = '完成'
+                }else if(datas[i].status === 3){
+                  datas[i].statusStr = '删除'
+                }
+              }
+              this.orderTable1 = datas;
               this.total = res.data.total;
             }
             this.loading = false
