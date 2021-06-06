@@ -11,7 +11,7 @@ import { MessageBox, Message } from 'element-ui';
 axios.defaults.withCredentials = true;
 axios.defaults.crossDomain = true;
 axios.defaults.timeout = 10000;   // 超时时间
-axios.defaults.baseURL = "http://www.747698.xyz:9000/master";  // 默认地址
+axios.defaults.baseURL = "https://shop.747698.xyz/api/master";  // 默认地址
 
 
 // 请求拦截

@@ -51,9 +51,11 @@
     </el-row>
     <div class="block">
       <el-pagination
-        :current-page="tableState.tableCurrent"
+        @size-change="getMsg"
+        @current-change="getMsg"
+        :current-page.sync="tableState.tableCurrent"
         :page-sizes="[10, 20, 50, 100]"
-        :page-size="tableState.tableSize"
+        :page-size.sync="tableState.tableSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableState.tableTotal">
       </el-pagination>
@@ -113,6 +115,9 @@
       this.getMsg();
     },
     methods:{
+      updateMessage(){
+        this.$emit('updateMessage');
+      },
       //标记本页已读
       readThisPage(){
         let ids = [];
@@ -125,6 +130,7 @@
       //标记所有已读
       readAll(){
         this.$http.get('/message/readAll');
+        this.updateMessage();
         this.getMsg();
       },
       //分页获取个人消息
@@ -150,6 +156,7 @@
       //调用接口读取信息
       readMsg(ids){
         this.$http.post('/message/readMsg', ids).then(res => {
+          this.updateMessage();
         });
       },
       //打开消息查看具体内容

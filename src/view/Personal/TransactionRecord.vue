@@ -86,9 +86,11 @@
         </el-table>
         <div class="block">
           <el-pagination
-            :current-page="orderQueryForm.pageNumber"
+            @size-change="getOrderBuy"
+            @current-change="getOrderBuy"
+            :current-page.sync="orderQueryForm.pageNumber"
             :page-sizes="[10, 20, 50, 100]"
-            :page-size="orderQueryForm.pageSize"
+            :page-size.sync="orderQueryForm.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total">
           </el-pagination>

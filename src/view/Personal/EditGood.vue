@@ -66,9 +66,11 @@
       </el-row>
       <div class="block">
         <el-pagination
-          :current-page="queryForm.pageNumber"
+          @size-change="getGoods"
+          @current-change="getGoods"
+          :current-page.sync="queryForm.pageNumber"
           :page-sizes="[10, 20, 50, 100]"
-          :page-size="queryForm.pageSize"
+          :page-size.sync="queryForm.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
         </el-pagination>
@@ -140,9 +142,11 @@
         </el-row>
         <div class="block" style="margin-top: 20px">
           <el-pagination
-            :current-page="queryForm2.pageNumber"
+            @size-change="getGoodsDetails"
+            @current-change="getGoodsDetails"
+            :current-page.sync="queryForm2.pageNumber"
             :page-sizes="[10, 20, 50, 100]"
-            :page-size="queryForm2.pageSize"
+            :page-size.sync="queryForm2.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total2">
           </el-pagination>
@@ -285,8 +289,20 @@
               type="warning"
               show-icon>
             </el-alert>
-            <el-button style="margin-top: 20px" type="danger" :disabled="multipleSelection2.length <= 0" @click="delCards">批量删除</el-button>
-            <el-button type="primary"  @click="getCardInfo">刷新</el-button>
+            <el-form style="margin-top: 20px" :model="queryCardForm" :inline="true">
+              <el-form-item label="使用状态">
+                <el-select v-model="queryCardForm.data.cardFlag">
+                  <el-option :value="null" label="所有" :key="null"></el-option>
+                  <el-option :value="0" label="已用" :key="0"></el-option>
+                  <el-option :value="1" label="未用" :key="1"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="卡密">
+                <el-input v-model="queryCardForm.data.goodsCards"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-button  type="danger" :disabled="multipleSelection2.length <= 0" @click="delCards">批量删除</el-button>
+            <el-button type="primary"  @click="getCardInfo">查询</el-button>
           </el-card>
         </el-row>
         <el-row style="margin-top: 20px">
@@ -311,18 +327,26 @@
               label="卡密"
               :key="1">
               <template slot-scope="scope">
-
-                <el-input v-if="scope.row.goodsCards === editCardForm.oldCards"  maxlength="300" v-model="inputStr" placeholder="请输入卡密" @keyup.enter.native="inputBlur(scope.row)"/>
+                <el-input v-if="scope.row.cardId === editCardForm.cardId"  maxlength="300" v-model="inputStr" placeholder="请输入卡密" @keyup.enter.native="inputBlur(scope.row)"/>
                 <span v-else>{{ scope.row.goodsCards }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="cardDateCreate"
+              label="创建时间">
+              <template slot-scope="scope">
+                {{$date.format(scope.row.cardDateCreate)}}
               </template>
             </el-table-column>
           </el-table>
         </el-row>
         <div class="block" style="margin-top: 20px">
           <el-pagination
-            :current-page="queryCardForm.pageNumber"
+            @size-change="getCardInfo"
+            @current-change="getCardInfo"
+            :current-page.sync="queryCardForm.pageNumber"
             :page-sizes="[10, 20, 50, 100]"
-            :page-size="queryCardForm.pageSize"
+            :page-size.sync="queryCardForm.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total3">
           </el-pagination>
@@ -442,6 +466,7 @@
         chooseImg:null,
         inputStr:null,
         editCardForm:{
+          cardId:null,
           oldCards:null,
           goodsCards:null,
           goodsSpc:null,
@@ -456,7 +481,9 @@
           data:{
             goodsId:null,
             goodsSpc:null,
-            cardsFlag:1,
+            cardFlag:1,
+            goodsCards:null,
+
           }
         },
         cardVisible:false,
@@ -515,7 +542,7 @@
     },
     methods:{
       delCards(){
-        this.$http.post('/goodsCards/delGoodsCards', this.multipleSelection2)
+        this.$http.post('/cards/delCards', this.multipleSelection2)
           .then(res => {
             if (res.code === 10000) {
               this.$message.success("删除卡密成功")
@@ -525,16 +552,14 @@
       },
       tabClick(row, column, cell, event){
         this.editCardForm.oldCards = row.goodsCards
+        this.editCardForm.cardId = row.cardId
         this.inputStr = row.goodsCards
 
       },
       inputBlur(row){
-        console.log("?")
         if (this.inputStr != this.editCardForm.oldCards) {
           this.editCardForm.goodsCards = this.inputStr
-          this.editCardForm.goodsId = row.goodsId
-          this.editCardForm.goodsSpc = row.goodsSpc
-          this.$http.post('/goodsCards/editGoodsCards', this.editCardForm)
+          this.$http.post('/cards/editCards', this.editCardForm)
             .then(res => {
               if (res.code === 10000) {
                 this.$message.success("修改成功");
@@ -543,12 +568,13 @@
             });
         }
         this.editCardForm.oldCards = null;
+        this.editCardForm.cardId = null;
         this.inputStr = null;
       },
       //获取卡密表格
       getCardInfo(){
         this.tableState.loading3 = true
-        this.$http.post('/goodsCards/getListByPage', this.queryCardForm)
+        this.$http.post('/cards/getListByPage', this.queryCardForm)
           .then(res => {
             if (res.code === 10000) {
               this.cardTable = res.data.list

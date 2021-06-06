@@ -26,44 +26,6 @@ export default {
         this.isRouterAlive = true
       })
     },
-    initWindowMsgListen(){
-      let _this = this;
-      window.addEventListener('message',function(e){
-        let msg = e.data;
-        let type = msg.type; // Q代表提问，A代表回答,P代表推送
-        let action = msg.action; // 动作
-        let data = msg.data;
-        if (type === 'A'){
-          switch (action) {
-            case 'getAuthToken': // 子系统向主系统请求获取用户登录token
-              Auth.setToken(data);
-              break;
-            case 'getUserInfo':  // 子系统向主系统请求获取当前登录的用户信息
-              data.user.roles = data.authorities.map(a=>a.authority);
-              Auth.setUser(data.user);
-              break;
-            case 'getUserMenu':
-              if(data!=null){
-                Auth.setMenu(data[0].children);
-              }
-              break;
-            case 'getUserFunc':
-              Auth.setAuthority(data);// 初始化用户认证需要的相关数据
-              break;
-          }
-        }else if(type === 'P'){
-          switch (action) {
-            case 'pushSystemID': // 子系统向主系统请求获取用户登录token
-              Auth.setSystemID(data);
-              window.parent.postMessage({type:'Q',action:'getAuthToken'},'*');
-              window.parent.postMessage({type:'Q',action:'getUserInfo'},'*');
-              window.parent.postMessage({type:'Q',action:'getUserMenu',data:{systemID:data}},'*');
-              window.parent.postMessage({type:'Q',action:'getUserFunc'},'*');
-              break;
-          }
-        }
-      });
-    },
    load(){
       //查看登陆状态
       let flag = this.$auth.getFirstFlag();
@@ -80,7 +42,7 @@ export default {
     }
   },
   mounted() {
-
+    this.load();
   },
   created() {
     //在页面加载时读取sessionStorage里的状态信息
@@ -92,7 +54,6 @@ export default {
       sessionStorage.setItem("store",JSON.stringify(this.$store.state))
     })
     // this.initWindowMsgListen();
-    this.load();
   },
 
 }

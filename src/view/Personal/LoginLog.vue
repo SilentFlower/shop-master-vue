@@ -45,9 +45,11 @@
       </el-row>
       <div class="block">
         <el-pagination
-          :current-page="queryForm.pageNumber"
+          @size-change="getLoginLog"
+          @current-change="getLoginLog"
+          :current-page.sync="queryForm.pageNumber"
           :page-sizes="[10, 20, 50, 100]"
-          :page-size="queryForm.pageSize"
+          :page-size.sync="queryForm.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
         </el-pagination>

@@ -76,7 +76,7 @@
               @mouseleave.native="itemMouseout">
         <el-col :span="5" :offset="1">
           <el-input class="search2"
-                    placeholder="请输入订单号/联系方式"
+                    placeholder="请输入订单号/商品名"
                     prefix-icon="el-icon-search"
                     @keyup.enter.native="searchHandler">
             <el-button slot="suffix" style="border: none;font-size: 12px;background:none;" plain @click="searchHandler">查询</el-button>
@@ -127,10 +127,12 @@
         </el-col>
 
         <el-col :span="6">
-          <el-button icon="el-icon-bell" style="border: none;font-size: 24px;font-weight: bold;background:none;"
-                    @click="myMessage"
-          />
-          <div style="position: relative;display: inline-block;cursor: pointer"@mouseover="itemMouseover2">
+          <el-badge :value="newMessage" type="primary">
+            <el-button icon="el-icon-bell" style="padding:  0 0 0 0;border: none;font-size: 24px;font-weight: bold;background:none;"
+                       @click="myMessage"
+            />
+          </el-badge>
+          <div  style="position: relative;display: inline-block;cursor: pointer;margin-left: 20px"@mouseover="itemMouseover2">
             <img src="/static/tou.png" alt="头像">
             <span style="margin-left: 5px">{{userName}}</span>
             <el-row v-if="hoverStatus2"
@@ -153,7 +155,7 @@
       </el-row>
 
       <el-row>
-        <router-view class="view"></router-view>
+        <router-view class="view" @updateMessage="getNewMessageCount"></router-view>
       </el-row>
     </el-col>
 
@@ -183,7 +185,6 @@
   </el-row>
 </template>
 <style>
-
   .personalCenter .el-textarea__inner{
     min-height: 250px!important;
   }
@@ -284,6 +285,8 @@
     inject: ['reload'],
     data() {
       return {
+        //个人信息个数
+        newMessage:null,
         //用户的nickname
         userName: "",
         //反馈表内容
@@ -310,11 +313,25 @@
     },
     mounted() {
       this.userName = this.$auth.getUser().username;
+      this.getNewMessageCount();
       this.getWidth();
       //默认跳至个人信息汇总
       this.goToInfo();
     },
     methods:{
+      //获取个人新消息个数
+      getNewMessageCount(){
+        this.$http.get('/message/getNewCount')
+          .then(res => {
+            if (res.code === 10000) {
+              if (res.data === 0) {
+                this.newMessage = null;
+              }else{
+                this.newMessage = res.data;
+              }
+            }
+          });
+      },
       //
       gotoEditCoupon(){
         this.$router.push({

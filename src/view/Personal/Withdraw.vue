@@ -114,9 +114,11 @@
         </el-table>
         <div class="block">
           <el-pagination
-            :current-page="withFlowForm.pageNumber"
+            @size-change="getWallet"
+            @current-change="getWallet"
+            :current-page.sync="withFlowForm.pageNumber"
             :page-sizes="[10, 20, 50, 100]"
-            :page-size="withFlowForm.pageSize"
+            :page-size.sync="withFlowForm.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total">
           </el-pagination>
