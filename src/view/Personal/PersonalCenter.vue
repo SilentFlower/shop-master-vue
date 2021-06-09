@@ -39,6 +39,8 @@
             </template>
             <el-menu-item index="2-1" @click="gotoAddGood">添加商品</el-menu-item>
             <el-menu-item index="2-2" @click="gotoEditGood">商品列表</el-menu-item>
+            <el-menu-item index="2-3" @click="gotoTypeGood">商品类别</el-menu-item>
+            <el-menu-item index="2-4" @click="gotoHotGood">热门商品</el-menu-item>
           </el-submenu>
 
           <el-submenu index="3">
@@ -65,6 +67,7 @@
             </template>
             <el-menu-item index="5-1" @click="gotoCoupon">优惠券生成</el-menu-item>
             <el-menu-item index="5-2" @click="gotoEditCoupon">优惠券管理</el-menu-item>
+            <el-menu-item index="5-3" @click="gotoMyCoupon">我的优惠券</el-menu-item>
           </el-submenu>
 
         </el-menu>
@@ -311,12 +314,14 @@
         }
       };
     },
+    created() {
+      //默认跳至个人信息汇总
+      this.goToInfo();
+    },
     mounted() {
       this.userName = this.$auth.getUser().username;
       this.getNewMessageCount();
       this.getWidth();
-      //默认跳至个人信息汇总
-      this.goToInfo();
     },
     methods:{
       //获取个人新消息个数
@@ -333,6 +338,11 @@
           });
       },
       //
+      gotoMyCoupon(){
+        this.$router.push({
+          name:'我的优惠券'
+        });
+      },
       gotoEditCoupon(){
         this.$router.push({
           name:'优惠券管理'
@@ -354,6 +364,17 @@
       gotoTranRec(){
         this.$router.push({
           name:'交易记录'
+        });
+      },
+      gotoTypeGood(){
+        this.$router.push({
+          name:'商品类别'
+        });
+      },
+      //跳转至热门商品
+      gotoHotGood(){
+        this.$router.push({
+          name:'热门商品'
         });
       },
       //跳转至商品列表

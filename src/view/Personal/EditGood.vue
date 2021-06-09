@@ -524,7 +524,10 @@
         total:0,
         queryForm:{
           pageSize:10,
-          pageNumber:1
+          pageNumber:1,
+          data:{
+            shopId:null,
+          }
         },
         //提现金额
         withdraw:null,
@@ -538,6 +541,7 @@
       }
     },
     mounted() {
+      this.queryForm.shopId = this.$auth.getUser().id;
       this.getGoods();
     },
     methods:{

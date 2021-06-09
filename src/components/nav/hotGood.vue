@@ -15,81 +15,27 @@
                ref="all"
                :style="{transform:changePosition}"
                class="ww3">
-        <el-col style="border: 2px solid #F9F9F9;">
+
+        <el-col v-for="item in hotGoods" :key="item.goodsId"
+                style="border: 2px solid #EDEDED;cursor: pointer" @click.native="gotoGoods(item.goodsId,item.shopId)">
           <el-row class="ww3">
-            <el-row style="height: 216px">
-              <div>图片</div>
+            <el-row style="height: 216px;margin-top: 30px">
+              <div>
+                <img width="216px" height="216px" :src="item.goodsPic" alt="">
+              </div>
             </el-row>
-            <el-row style="height:47px">
-              <div>标题</div>
-              <div>描述</div>
+            <el-row style="height:47px;margin-top: 20px">
+              <div class="ii1">{{item.goodsName}}</div>
+              <el-popover placement="top-start" title="" trigger="hover">
+                <div class="ii2" style="overflow: hidden">{{item.goodsMemo}}</div>
+                <div slot="reference" class="ii22">{{item.goodsMemo}}</div>
+              </el-popover>
             </el-row>
-            <el-row style="float: bottom">
-              <div>价格</div>
+            <el-row>
+              <div class="ii3">{{item.lowPrice}}~{{item.highPrice}}元</div>
             </el-row>
           </el-row>
         </el-col>
-
-        <el-col style="border: 2px solid #F9F9F9;">
-          <el-row class="ww3">
-            <el-row style="height: 216px">
-              <div>图片</div>
-            </el-row>
-            <el-row style="height:47px">
-              <div>标题</div>
-              <div>描述</div>
-            </el-row>
-            <el-row style="float: bottom">
-              <div>价格</div>
-            </el-row>
-          </el-row>
-        </el-col>
-
-        <el-col style="border: 2px solid #F9F9F9;">
-          <el-row class="ww3">
-            <el-row style="height: 216px">
-              <div>图片</div>
-            </el-row>
-            <el-row style="height:47px">
-              <div>标题</div>
-              <div>描述</div>
-            </el-row>
-            <el-row style="float: bottom">
-              <div>价格</div>
-            </el-row>
-          </el-row>
-        </el-col>
-
-        <el-col style="border: 2px solid #F9F9F9;">
-          <el-row class="ww3">
-            <el-row style="height: 216px">
-              <div>图片</div>
-            </el-row>
-            <el-row style="height:47px">
-              <div>标题</div>
-              <div>描述</div>
-            </el-row>
-            <el-row style="float: bottom">
-              <div>价格</div>
-            </el-row>
-          </el-row>
-        </el-col>
-
-        <el-col style="border: 2px solid #F9F9F9;">
-          <el-row class="ww3">
-            <el-row style="height: 216px">
-              <div>图片</div>
-            </el-row>
-            <el-row style="height:47px">
-              <div>标题</div>
-              <div>描述</div>
-            </el-row>
-            <el-row style="float: bottom">
-              <div>价格</div>
-            </el-row>
-          </el-row>
-        </el-col>
-
 
       </el-row>
     </el-row>
@@ -100,6 +46,39 @@
     overflow: hidden;
     border-radius: 10px;
     background-color: #FFFFFF;
+  }
+  .hotGood .ii1{
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 8px;
+    color: #333;
+  }
+  .hotGood .ii2{
+    margin-top: 10px;
+    font-size: 12px;
+    color: #999;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  .hotGood .ii22{
+    margin-top: 20px;
+    font-size: 12px;
+    color: #999;
+    padding-right: 20px;
+    padding-left: 20px;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    text-overflow: ellipsis;
+    overflow:hidden;
+  }
+  .hotGood .ii3{
+    font-family: Arial;
+    font-size: 18px;
+    font-weight: bolder;
+    color: #d44d44;
+    margin: 50px 0;
+    -webkit-transition: all .1s ease-out;
+    transition: all .1s ease-out;
   }
   .hotGood .ww2{
     background-color: #FAFAFA;
@@ -122,6 +101,7 @@
   export default {
     data() {
       return {
+        hotGoods:[],
         x:0,
         clickCount: 0,
         between:306,
@@ -129,7 +109,26 @@
         rightStatus:true,
       };
     },
+    mounted() {
+      this.init();
+    },
     methods:{
+      //初始化
+      init(){
+        this.getHotGoods();
+      },
+      gotoGoods(goodsId,shopId){
+        this.$emit('gotoGoodsBuy',goodsId,shopId)
+      },
+      //查找热门商品
+      getHotGoods(){
+        this.$http.get('/hotGoods/getHotGoodsForHome')
+          .then(res => {
+            if (res.code === 10000) {
+              this.hotGoods = res.data;
+            }
+          });
+      },
       //左键触发
       leftClick(){
         this.clickCount--

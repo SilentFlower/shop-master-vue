@@ -152,28 +152,6 @@
       onCropFinish(data) {
         console.log(data)
         this.$emit("cropFinish", data);
-        // const loading = this.$loading({
-        //   lock: true,
-        //   text: 'Loading',
-        //   spinner: 'el-icon-loading',
-        //   background: 'rgba(0, 0, 0, 0.7)'
-        // });
-        // this.doUpload(data)
-        //   .then(url => {
-        //     // 更新对应 index 的 url
-        //     const newFileList = this.fileList;
-        //     const item = { url, };
-        //     if (this.selectedCropIndex === -1) {
-        //       newFileList.push(item);
-        //     } else {
-        //       newFileList[this.selectedCropIndex] = item;
-        //     }
-        //     this.$emit('update:fileList', newFileList);
-        //   })
-        //   .finally(() => {
-        //     this.reset();
-        //     loading.close();
-        //   });
       },
       // 取消裁剪
       onCropCancel() {

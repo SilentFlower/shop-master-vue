@@ -64,7 +64,7 @@
         cropperOption: {
           img: '',
           size: 1, // 输出图片压缩比, 默认 1
-          full: false, // 是否输出原图比例的截图
+          full: true, // 是否输出原图比例的截图
           infoTrue: false, // 截图信息展示是否时真实的输出宽高
           outputType: 'png',
           canScale: false, // 是否开启滚轮缩放大小
@@ -77,12 +77,13 @@
           // 只有自动截图开启 宽度高度才生效
           autoCropWidth: 200,
           autoCropHeight: 200,
+          fixedNumber: [1, 1],
           centerBox: true, // 截图框是否限制在图片里(只有在自动生成截图框时才生效)
           high: false, // 是否根据 dpr 生成适合屏幕的高清图片
           cropData: {},
           enlarge: 1, // 按照截图框比例输出，默认 1
           mode: 'contain', // 图片的默认渲染方式
-          maxImgSize: 2000, // 上传图片时图片最大大小(默认会压缩尺寸到这个大小)
+          maxImgSize: 10000, // 上传图片时图片最大大小(默认会压缩尺寸到这个大小)
           limitMinSize: [128, 128] // 截图框最小限制
         }
       };

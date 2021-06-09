@@ -3,13 +3,13 @@
   <el-row class="master">
     <Carousel2></Carousel2>
 <!--    热门商品 -->
-    <hotGood style="margin-top: 20px"></hotGood>
+    <hotGood style="margin-top: 20px" @gotoGoodsBuy="gotoGoodsBuy"></hotGood>
 <!--    商品分类1 -->
-    <classGood1 style="margin-top: 20px"></classGood1>
+    <classGood1 style="margin-top: 20px" @gotoGoodsBuy="gotoGoodsBuy"></classGood1>
     <!--    商品分类2 -->
-    <classGood2 style="margin-top: 20px"></classGood2>
+    <classGood2 style="margin-top: 20px" @gotoGoodsBuy="gotoGoodsBuy"></classGood2>
     <!--    商品分类3 -->
-    <classGood3 style="margin-top: 20px"></classGood3>
+    <classGood3 style="margin-top: 20px" @gotoGoodsBuy="gotoGoodsBuy"></classGood3>
   </el-row>
 </template>
 <style>
@@ -36,6 +36,15 @@
 
     },
     methods:{
+      gotoGoodsBuy(goodsId,shopId){
+        this.$router.push({
+          name:'商品',
+          query:{
+            goodsId: goodsId,
+            shopId: shopId
+          }
+        })
+      },
       register(){
         this.$emit("register")
       },

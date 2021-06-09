@@ -11,12 +11,16 @@ import Master from "../view/Master/master";
 import Home from "../view/Master/home";
 import Search from "../view/Master/search";
 import Good from "../view/Master/good";
+import SettleAccounts from "../view/Master/settleAccounts";
 import ShopCart from "../view/Master/shoppingCart";
 import LoginLog from "../view/Personal/LoginLog";
+import MyCoupon from "../view/Personal/MyCoupon";
 import MerchantInformation from "../view/Personal/MerchantInformation";
 import FundingChanges from "../view/Personal/FundingChanges";
 import AddGood from "../view/Personal/AddGood";
 import EditGood from "../view/Personal/EditGood";
+import HotGood from "../view/Personal/HotGood";
+import ClassGood from "../view/Personal/ClassGood";
 import TransactionRecord from "../view/Personal/TransactionRecord"
 import ComplaintOrder from "../view/Personal/ComplaintOrder"
 import Coupon from "../view/Personal/Coupon"
@@ -60,6 +64,11 @@ let router =  new Router({
           path: '/shopCart',
           name: '购物车',
           component: ShopCart
+        },
+        {
+          path: '/settleAccounts',
+          name: '结算',
+          component: SettleAccounts
         }
       ]
     },
@@ -119,6 +128,16 @@ let router =  new Router({
           component: EditGood
         },
         {
+          path: '/classGood',
+          name: '商品类别',
+          component: ClassGood
+        },
+        {
+          path: '/hotGood',
+          name: '热门商品',
+          component: HotGood
+        },
+        {
           path:'/transactionRecord',
           name:'交易记录',
           component:TransactionRecord
@@ -137,6 +156,11 @@ let router =  new Router({
           path:'/editCoupon',
           name:'优惠券管理',
           component:EditCoupon
+        },
+        {
+          path:'/myCoupon',
+          name:'我的优惠券',
+          component:MyCoupon
         }
 
       ]
@@ -144,6 +168,7 @@ let router =  new Router({
   ]
 });
 router.beforeEach((to, from, next) => {
+  document.documentElement.scrollTop = 0
   next();
 });
 export default router

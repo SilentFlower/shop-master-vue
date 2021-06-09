@@ -207,7 +207,6 @@
       },
       //完成裁剪
       cropFinish(file){
-
         this.goodForm.pic = file
         let str = URL.createObjectURL(file)
         this.goodForm.goodsPic = str

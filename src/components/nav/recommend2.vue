@@ -1,6 +1,6 @@
 <!--店铺其他商品推荐-->
 <template>
-  <el-row class="recommend">
+  <el-row class="recommend2">
     <el-row class="ww2" type="flex" align="middle">
       <span class="ww1 el-icon-s-opportunity">相关推荐</span>
     </el-row>
@@ -33,16 +33,16 @@
   </el-row>
 </template>
 <style>
-  .recommend{
+  .recommend2{
     overflow: hidden;
     border-radius: 10px;
     background-color: #FFFFFF;
   }
-  .recommend .ww2{
+  .recommend2 .ww2{
     background-color: #FAFAFA;
     border-bottom: 2px solid #E4E4E4;
   }
-  .recommend .ww1{
+  .recommend2 .ww1{
     float: left;
     margin-left: 25px;
     font-weight: bolder;
@@ -50,26 +50,26 @@
     line-height: 60px;
     color: #666;
   }
-  .recommend .ww3{
+  .recommend2 .ww3{
     margin-left: 20px;
     cursor: pointer;
     font-size: 14px;
     color: #666;
   }
-  .recommend .ii1{
+  .recommend2 .ii1{
     font-size: 14px;
     font-weight: 700;
     margin: 0 8px;
     color: #333;
   }
-  .recommend .ii2{
+  .recommend2 .ii2{
     margin-top: 10px;
     font-size: 12px;
     color: #999;
     padding-right: 20px;
     padding-left: 20px;
   }
-  .recommend .ii22{
+  .recommend2 .ii22{
     margin-top: 20px;
     font-size: 12px;
     color: #999;
@@ -80,7 +80,7 @@
     text-overflow: ellipsis;
     overflow:hidden;
   }
-  .recommend .ii3{
+  .recommend2 .ii3{
     font-family: Arial;
     font-size: 18px;
     font-weight: bolder;
@@ -111,7 +111,7 @@
         })
       },
       getRecommend(){
-        this.$http.get('/type/getClassGoodForHome?num=8&shopId='+this.shopId)
+        this.$http.get('/type/getClassGoodForHome?num=8&typeId='+this.typeId)
           .then(res => {
             if (res.code === 10000) {
               this.recommend = res.data;
@@ -124,7 +124,7 @@
       this.init();
     },
     props:{
-      shopId:String
+      typeId:String
     }
 
   }

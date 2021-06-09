@@ -6,12 +6,18 @@
     </el-row>
     <el-row>
       <el-row  style="height: 858px;">
-        图片形式
+        <div style="padding-top: 20px" class="info">
+          {{info}}
+        </div>
       </el-row>
     </el-row>
   </el-row>
 </template>
 <style>
+  .goodInfo .info{
+    font-size: 24px;
+    font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+  }
   .goodInfo{
     overflow: hidden;
     border-radius: 10px;
@@ -46,6 +52,9 @@
     methods:{
 
     },
+    props:{
+      info:String,
+    }
 
   }
 </script>
