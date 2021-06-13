@@ -157,11 +157,9 @@
         if (this.checkList.length <= 0) {
           this.$message.error("未选择商品");
         }else{
+          this.$auth.setShopCart(this.checkList);
           this.$router.push({
-            name:'结算',
-            query:{
-              buyList:this.checkList,
-            },
+            name:'结算'
           });
         }
       },

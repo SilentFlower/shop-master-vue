@@ -9,6 +9,7 @@ Vue.use(Vuex);
  */
 const store = new Vuex.Store({
   state: {
+    shopCart:null,
     firstFlag:true,
     user: {},
     token:'',
@@ -26,6 +27,10 @@ const store = new Vuex.Store({
     load_token(state,token) {
       this.state.token = token;
     },
+    //加载shopCart
+    load_shopCart(state,shopCart) {
+      this.state.shopCart = shopCart;
+    },
   },
   getters: {
     firstFlag:state => {
@@ -36,6 +41,9 @@ const store = new Vuex.Store({
     },
     user: state => {
       return state.user;
+    },
+    shopCart: state => {
+      return state.shopCart;
     },
   }
 

@@ -23,6 +23,12 @@ class Auth{
   static getUser() {
     return store.getters.user;
   }
+  static setShopCart(shopCart) {
+    store.commit('load_shopCart', shopCart)
+  }
+  static getShopCart() {
+    return store.getters.shopCart;
+  }
   static removeUser() {
     Auth.setUser({});
   }

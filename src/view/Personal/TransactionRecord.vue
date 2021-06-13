@@ -28,13 +28,15 @@
                 </el-option>
                 <el-option label="取消" :value="0">
                 </el-option>
-                <el-option label="支付中" :value="1">
+                <el-option label="待支付" :value="1">
                 </el-option>
-                <el-option label="支付完成" :value="2">
+                <el-option label="待发货" :value="2">
                 </el-option>
-                <el-option label="申诉中" :value="4">
+                <el-option label="待确认" :value="6">
                 </el-option>
                 <el-option label="完成" :value="5">
+                </el-option>
+                <el-option label="申诉" :value="4">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -155,7 +157,25 @@
         this.$http.post('/order/getOrdersByIdAndTime', this.orderQueryForm)
           .then(res => {
             if (res.code === 10000) {
-              this.orderTable1 = res.data.list;
+              let datas = res.data.list;
+              for (let i in datas) {
+                if(datas[i].status === 0){
+                  datas[i].statusStr = '取消'
+                }else if(datas[i].status === 1){
+                  datas[i].statusStr = '待付款'
+                }else if(datas[i].status === 2){
+                  datas[i].statusStr = '待发货'
+                }else if(datas[i].status === 4){
+                  datas[i].statusStr = '申诉中'
+                }else if(datas[i].status === 5){
+                  datas[i].statusStr = '完成'
+                }else if(datas[i].status === 3){
+                  datas[i].statusStr = '删除'
+                }else if(datas[i].status === 6){
+                  datas[i].statusStr = '待确认'
+                }
+              }
+              this.orderTable1 = datas;
               this.total = res.data.total;
             }
             this.loading = false

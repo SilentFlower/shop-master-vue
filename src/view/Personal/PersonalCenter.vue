@@ -283,7 +283,6 @@
   }
 </style>
 <script>
-  import Auth from '@/utils/auth.js'
   export default {
     inject: ['reload'],
     data() {

@@ -264,6 +264,7 @@
           couponLimit:null,
           couponValue:null,
           couponType:null,
+          couponUseType:null,
         },
         editVisible:false,
         //输入框填写的内容
@@ -321,6 +322,7 @@
         this.editRow.couponNum = row.couponNum;
         this.editRow.couponLimit = row.couponLimit;
         this.editRow.couponValue = row.couponValue;
+        this.editRow.couponUseType = row.couponUseType;
         this.editRow.couponType = row.couponType;
         this.editVisible = true;
       },

@@ -51,6 +51,7 @@
             <el-col  :span="6" :class="{'canClick':item.haveUseCount == 0}" style="height: 100%" @click.native="pullCoupon(item)">
               <el-row style="height: 100%" type="flex" justify="center" align="middle">
                 <span v-if="item.haveUseCount > 0">已领取</span>
+                <span v-else-if="item.couponNum <= 0">已领完</span>
                 <span v-else>领取</span>
               </el-row>
             </el-col>
@@ -244,12 +245,14 @@
     },
     methods:{
       pullCoupon(item){
-        if (item.haveUseCount == 0) {
+        if (item.haveUseCount == 0 && item.couponNum > 0) {
           this.$http.post('/couponUser/addCouponUser', {couponId: item.couponId})
             .then(res => {
               if (res.code === 10000) {
                 this.$message.success("领取成功");
                 this.getCoupon();
+              }else{
+                this.$message.success("领取失败,请刷新");
               }
             });
         }

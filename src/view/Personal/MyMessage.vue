@@ -47,6 +47,12 @@
           prop="msgContent"
           label="内容">
         </el-table-column>
+        <el-table-column
+          label="操作">
+          <template slot-scope="scope">
+            <el-button type="success" size="mini" v-if="scope.row.sendId != null" @click.native.stop="openReply(scope.row)">回复</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </el-row>
     <div class="block">
@@ -66,6 +72,29 @@
       <div slot="footer" class="dialog-footer">
         <div>{{$date.format(new Date(dialog.msgDate))}}</div>
       </div>
+    </el-dialog>
+
+    <el-dialog title="回复信息" :visible.sync="visible" @close="visible = false">
+      <el-form label-position="top" label-width="80px" style="padding-left: 20px;padding-right: 20px">
+        <el-row>
+          <el-form-item>
+            <el-col :span="14">
+              <el-input
+                :autosize="{ minRows: 6, maxRows: 20}"
+                type="textarea"
+                v-model="messageForm.msgContent"></el-input>
+            </el-col>
+          </el-form-item>
+        </el-row>
+      </el-form>
+      <el-row style="margin-left: auto;display: flex;margin-right: 20px;margin-top: 20px;justify-content: flex-end">
+        <el-button @click="visible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="replyMessage">
+          提交
+        </el-button>
+      </el-row>
     </el-dialog>
 
   </el-row>
@@ -93,6 +122,8 @@
   export default {
     data() {
       return {
+        chooseRow:null,
+        visible:false,
         //分页相关
         tableState:{
           tableSize:10,
@@ -108,13 +139,31 @@
           title:null,
           content:null,
           msgDate:null,
-        }
+        },
+        messageForm:{
+          msgType:'回复信息',
+          msgContent:null,
+          userId:null,
+        },
+
       };
     },
     mounted() {
       this.getMsg();
     },
     methods:{
+      replyMessage(){
+        //将发送人设置为接收人
+        this.messageForm.userId = this.chooseRow.sendId;
+        this.$http.post('/message/sendMessage', this.messageForm)
+          .then(res => {
+            this.$message.success("回复成功");
+          });
+      },
+      openReply(row){
+        this.chooseRow = row;
+        this.visible = true
+      },
       updateMessage(){
         this.$emit('updateMessage');
       },
@@ -161,6 +210,7 @@
       },
       //打开消息查看具体内容
       openMsg(row, column, event){
+        console.log("??")
         //调用接口读取改变信息状态
         let ids = [];
         ids.push(row.msgId)

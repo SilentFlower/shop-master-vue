@@ -1,5 +1,10 @@
 <template>
-  <el-dialog :visible.sync="withdrawVisible" width="35%" v-if="withdrawVisible" :close-on-click-modal="false">
+  <el-dialog
+             :visible.sync="withdrawVisible"
+             width="35%" v-if="withdrawVisible"
+             :close-on-click-modal="false"
+             :before-close=close
+  >
     <div slot="title" class="dialogTitle">
       补齐提款方式
     </div>
