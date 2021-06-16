@@ -282,7 +282,7 @@
         </el-tabs>
       </el-row>
     </el-row>
-    <goodsDetail :label="label" ref="ggo" :goodsDetailsVisible="goodsDetailsVisible" :row="chooseRow" @close="closeDetails"></goodsDetail>
+    <goodsDetail ref="ggo" @init="init" :label="label" :goodsDetailsVisible="goodsDetailsVisible" :row="chooseRow" @close="closeDetails"></goodsDetail>
     <el-drawer
       :visible.sync="payVisible"
       size="40%"
@@ -439,7 +439,6 @@
   import "echarts/theme/customed"
   import "echarts/lib/chart/bar";
   import goodsDetail from "../../components/goods/goodsDetail";
-  import cropUpload from "../../components/upload/crop-upload";
   export default {
     components: {
       "v-chart": ECharts,
@@ -591,6 +590,12 @@
         }
       };
     },
+    created() {
+      if (this.$route != undefined) {
+        this.orderQueryForm.data.orderId = this.$route.query.orderId
+        this.inputStr = this.$route.query.orderId
+      }
+    },
     mounted() {
       this.init();
     },
@@ -632,7 +637,7 @@
           .then(res => {
             if (res.code === 10000) {
               this.$message.success("确认成功");
-              this.getOrderBuy()
+              this.init();
             }
           });
       },
@@ -642,7 +647,7 @@
           .then(res => {
             if (res.code === 10000) {
               this.$message.success("申诉中");
-              this.getOrderBuy()
+              this.init()
             }
           });
       },

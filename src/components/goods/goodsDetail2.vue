@@ -74,13 +74,13 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.status == 1 && label == '售出订单'" type="primary" size="mini" @click.stop="sendGood(scope.row)">发货</el-button>
             <el-button type="primary" size="mini" @click.stop="openGoodsCoupon(scope.row)">优惠券</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-row>
     <el-row type="flex" justify="flex-end">
+      <el-button type="danger" @click="sendGoodVible = true">退款</el-button>
       <span class="eqe" style="margin-left: auto;margin-right: 40px" v-if="row.appealFlag == 1">退款总和￥{{row.backAmount}}</span>
       <span class="eqe" style="margin-left: auto;margin-right: 40px">实际支付总和￥{{row.payAmount}}</span>
     </el-row>
@@ -194,14 +194,24 @@
       @close="sendGoodVible = false">
       <template slot="title">
         <el-row style="border-bottom: 2px solid #F7F7F7;padding-bottom: 10px">
-          <span style="font-weight: 500;font-size: 16px;color: #000000">手动发货</span>
+          <span style="font-weight: 500;font-size: 16px;color: #000000">退款</span>
         </el-row>
       </template>
       <el-form label-position="top" label-width="80px" style="padding-left: 20px;padding-right: 20px">
         <el-row>
           <el-form-item>
             <template slot="label">
-              <span class="uytradsdadsaew">发货信息</span>
+              <span class="uytradsdadsaew">退款金额</span>
+            </template>
+            <el-col :span="14">
+              <el-input
+                type="number"
+                v-model="backAmount"></el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item>
+            <template slot="label">
+              <span class="uytradsdadsaew">发送信息</span>
             </template>
             <el-col :span="14">
               <el-input
@@ -273,6 +283,7 @@
   export default {
     data() {
       return {
+        backAmount:0,
         message:null,
         chhhoseRow:{},
         sendGoodVible:false,
@@ -282,10 +293,16 @@
         loading:false,
         shopCoupon:[],
         goodsDetails:[],
+        payOrder:{
+          message:null,
+          backAmount:null,
+          orderId:null,
+          userId:null,
+        },
       }
     },
     methods:{
-      //手动发货
+      //手动退款
       sendGood(row){
         this.chhhoseRow = row;
         this.sendGoodVible = true;
@@ -306,17 +323,23 @@
         });
       },
       //初始化
-      wtf(){
-        this.$emit('init');
+      init(){
+
+      },
+      reflash(){
+        this.$emit('www');
+        this.sendGoodVible = false;
       },
       sendMessage(){
-        this.chhhoseRow.message = this.message;
-        this.$http.post('/orderDetail/manualDelivery',this.chhhoseRow)
+        this.payOrder.orderId = this.row.orderId;
+        this.payOrder.message = this.message;
+        this.payOrder.userId = this.row.userId;
+        this.payOrder.backAmount = this.backAmount;
+        this.$http.post('/order/backAmount',this.payOrder)
           .then(res => {
             if (res.code === 10000) {
-              this.$message.success("发货成功");
-              this.getAll(this.row.orderId)
-              this.wtf();
+              this.$message.success("退款成功");
+              this.reflash();
             }
           });
       },
@@ -342,12 +365,11 @@
       },
     },
     mounted() {
-
+      this.init();
     },
     props:{
       goodsDetailsVisible:Boolean,
       row:Object,
-      label:String,
     },
   }
 </script>

@@ -125,7 +125,12 @@
       },
       gotoGoods(item){
         if (item.goodsId == null) {
-          //跳转至店铺（待补）
+          this.$router.push({
+            name:'店铺',
+            query:{
+              shopId: item.shopId
+            }
+          });
         }else{
           //跳转至商品页面
           this.$router.push({

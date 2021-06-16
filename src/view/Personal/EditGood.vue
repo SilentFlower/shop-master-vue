@@ -501,7 +501,7 @@
         addForm:{
           goodsId:null,
           goodsSpc:null,
-          goodsPrice:0,
+          goodsPrice:null,
           goodsNum:0,
           goodsAuto:0,
           cards:null,
@@ -541,7 +541,7 @@
       }
     },
     mounted() {
-      this.queryForm.shopId = this.$auth.getUser().id;
+      this.queryForm.data.shopId = this.$auth.getUser().id;
       this.getGoods();
     },
     methods:{
@@ -677,6 +677,7 @@
         this.addCardVisible = true
       },
       addCard(){
+        this.addForm.goodsPrice = null;
         this.$http.post('/goodsDetails/addGoodsCard', this.addForm)
           .then(res => {
             if (res.code === 10000) {

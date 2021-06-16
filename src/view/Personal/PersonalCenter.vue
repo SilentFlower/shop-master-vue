@@ -144,7 +144,11 @@
                     type="flex"
                     justify="center"
             >
-              <el-row class="wttttt" @click.native="editPwd">
+              <el-row class="wttttt" @click.native="getMyCard">
+                <i class="el-icon-postcard" style="font-size: 16px"/>
+                我的卡密
+              </el-row>
+              <el-row class="wttttt" style="margin-top: 10px" @click.native="editPwd">
                 <i class="el-icon-key" style="font-size: 16px"/>
                 修改密码
               </el-row>
@@ -185,6 +189,54 @@
       </div>
     </el-dialog>
 
+    <el-dialog :visible.sync="cardVisible" width="60%" v-if="cardVisible" @close="cardVisible =false">
+      <div slot="title" class="dialogTitle">
+        我的卡密
+      </div>
+      <el-table
+        v-loading="loading22"
+        :data="card"
+        @row-click="getCard"
+        :header-cell-style="getHeadClass"
+        border
+      >
+        <el-table-column
+          prop="goodsName"
+          label="商品名称">
+        </el-table-column>
+        <el-table-column
+          prop="goodsPic"
+          label="商品图片">
+          <template slot-scope="scope">
+            <el-popover placement="top-start" title="" trigger="hover">
+              <img :src="scope.row.goodsPic+'?'+Math.random()" alt="" style="width: 150px;height: 150px">
+              <img slot="reference" :src="scope.row.goodsPic+'?'+Math.random()" style="width: 30px;height: 30px">
+            </el-popover>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="goodsSpc"
+          label="规格">
+        </el-table-column>
+        <el-table-column
+          prop="card"
+          label="卡密">
+        </el-table-column>
+
+
+      </el-table>
+      <div class="block">
+        <el-pagination
+          @size-change="getCard"
+          @current-change="getCard"
+          :current-page.sync="queryForm.pageNumber"
+          :page-sizes="[10, 20, 50, 100]"
+          :page-size.sync="queryForm.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
+    </el-dialog>
   </el-row>
 </template>
 <style>
@@ -287,6 +339,16 @@
     inject: ['reload'],
     data() {
       return {
+        total:0,
+        queryForm:{
+          pageSize:10,
+          pageNumber:1,
+          data:{
+          },
+        },
+        card:[],
+        loading22:false,
+        cardVisible:false,
         //个人信息个数
         newMessage:null,
         //用户的nickname
@@ -323,6 +385,21 @@
       this.getWidth();
     },
     methods:{
+      getCard(){
+        this.loading22 = true
+        this.$http.post('/cardsUser/getListByPage', this.queryForm)
+          .then(res => {
+            if (res.code === 10000) {
+              this.card = res.data.list;
+              this.total = res.total;
+              this.loading22 = false
+            }
+          });
+      },
+      getMyCard(){
+        this.cardVisible = true
+        this.getCard();
+      },
       //获取个人新消息个数
       getNewMessageCount(){
         this.$http.get('/message/getNewCount')
@@ -516,6 +593,12 @@
       //搜索订单
       searchHandler(){
 
+      },
+      //表头样式
+      getHeadClass(){
+        return ' color: #68728c!important;\n' +
+          '    font-weight: 700;'+
+          'background: rgba(244,247,254,.25);'
       }
     },
   }

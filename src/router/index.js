@@ -9,6 +9,7 @@ import InformationSummary from "../view/Personal/InformationSummary";
 import Withdraw from "../view/Personal/Withdraw";
 import Master from "../view/Master/master";
 import Home from "../view/Master/home";
+import Shop from "../view/Master/shop";
 import Search from "../view/Master/search";
 import Good from "../view/Master/good";
 import SettleAccounts from "../view/Master/settleAccounts";
@@ -69,6 +70,11 @@ let router =  new Router({
           path: '/settleAccounts',
           name: '结算',
           component: SettleAccounts
+        },
+        {
+          path: '/shop',
+          name: '店铺',
+          component: Shop
         }
       ]
     },

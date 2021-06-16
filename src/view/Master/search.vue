@@ -3,10 +3,10 @@
   <el-row class="search">
     <el-row style="text-align: left;margin-left: 20px">
       <span class="el-icon-d-caret" style="color: #5683ea;font-size: 12px;">综合排序</span>
-      <span class="cc1 el-icon-caret-top">价格低到高</span>
-      <span class="cc1 el-icon-caret-bottom">价格高到低</span>
+      <span class="cc1 el-icon-caret-top" @click="changeOne">价格低到高</span>
+      <span class="cc1 el-icon-caret-bottom" @click="changeTwo">价格高到低</span>
     </el-row>
-    <goodsList style="margin-top: 20px"></goodsList>
+    <goodsList ref="searchGoods" style="margin-top: 20px" :goodsName="goodsName"></goodsList>
   </el-row>
 </template>
 <style>
@@ -33,15 +33,25 @@
   export default {
     data() {
       return {
-
+        goodsName: null,
       }
     },
-    mounted() {
-
+    created() {
+      this.goodsName = this.$route.query.searchValue;
     },
     methods:{
-      register(){
-        this.$emit("register")
+      changeOne(){
+        this.$refs.searchGoods.upchange();
+      },
+      changeTwo(){
+        this.$refs.searchGoods.upchange2();
+      }
+    },
+    watch:{
+      '$route' (to,from) {
+        if (to.query.searchValue != from.query.searchValue) {
+          this.goodsName = to.query.searchValue;
+        }
       },
     },
     components: {

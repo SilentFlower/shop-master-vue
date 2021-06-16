@@ -315,7 +315,15 @@
         this.$http.get('/withdraw/getWithdraw')
           .then(res => {
             if (res.code === 10000) {
-              this.withdrawForm = res.data;
+              let datas = res.data;
+              if (datas === null) {
+                this.withdrawForm.userId = null
+                this.withdrawForm.withdrawAccount = null
+                this.withdrawForm.withdrawName = null
+                this.withdrawForm.withdrawType = null
+              }else{
+                this.withdrawForm = datas;
+              }
               this.$refs.withdraw.setWithdrawInfo(this.withdrawForm);
               this.withdrawVisible = true;
             }

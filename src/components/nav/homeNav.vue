@@ -99,7 +99,10 @@
       //搜索商品页面
       searchGood(){
         this.$router.push({
-          name: '搜索'
+          name: '搜索',
+          query:{
+            searchValue: this.searchValue
+          }
         })
       },
       //商城首页

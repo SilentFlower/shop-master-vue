@@ -195,6 +195,7 @@
       },
       //填写手机
       addPhone(){
+        console.log("??")
         if (this.phone == '未填写') {
           this.phoneVisible = true;
         }
@@ -243,8 +244,19 @@
         this.$http.get('/shop/getShopInfo')
           .then(res => {
             if (res.code === 10000) {
-              this.shopForm = res.data
-              this.shopForm.shopPicUrl+='?'+Math.random();
+              let datas = res.data
+              if (datas === null) {
+                this.shopForm.shopPicUrl = null;
+                this.shopForm.shopName = null;
+                this.shopForm.shopNotice = null;
+                this.shopForm.shopMemo = null;
+                this.shopForm.shopContactContent = null;
+              }else{
+                this.shopForm = datas
+              }
+              if (this.shopForm.shopPicUrl != null) {
+                this.shopForm.shopPicUrl+='?'+Math.random();
+              }
             }
           });
       },

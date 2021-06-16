@@ -10,6 +10,7 @@
         <el-col style="padding-left: 10px;padding-right: 10px;">
           <el-row style="margin-top: 25px;border-bottom: 2px solid #EDEDED;padding-bottom: 10px">
             <span class="title">{{goods.goodsName}}</span>
+            <el-button type="success" @click="gotoShop">进入店铺</el-button>
           </el-row>
           <el-row style="margin-top: 50px;display:flex;justify-content: flex-start;align-items: center">
             <span style="padding-right: 20px">规格选择</span>
@@ -244,6 +245,15 @@
       this.init();
     },
     methods:{
+      gotoShop(){
+        //去到店铺
+        this.$router.push({
+          name:'店铺',
+          query:{
+            shopId: this.shopId
+          }
+        })
+      },
       pullCoupon(item){
         if (item.haveUseCount == 0 && item.couponNum > 0) {
           this.$http.post('/couponUser/addCouponUser', {couponId: item.couponId})
